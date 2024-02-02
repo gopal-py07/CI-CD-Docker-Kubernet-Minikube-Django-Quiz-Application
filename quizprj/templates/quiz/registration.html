@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Quiz Application| {{ title }} {% endblock title %}
+{% block content %}
+     <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
+              <h1 class="mb-3 text-center">Create a new account</h1>
+              <form class="mb-3" method="POST" action="">
+                {% csrf_token %}
+		            {{form|crispy}}
+		        <input type="submit" class="btn btn-info btn-block mb-3" value="{{ title }}"> 
+              </form>
+              <div class="text-center">
+                <p>or ...</p>
+                <a href="{% url 'quiz:login' %}" class="btn btn-success">Login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock content %}

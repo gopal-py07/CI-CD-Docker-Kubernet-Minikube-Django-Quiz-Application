@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+   web:
+       build: .
+       container_name: lnx_quiz_prj_latest
+       image: gopalghule05/lnx_quiz:latest
+       command: python3 manage.py runserver 0.0.0.0:8000
+       ports:
+           - 8000:8000

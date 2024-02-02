@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-backend-quiz-app
+  labels:
+    app: django-backend-quiz-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-backend-quiz-app
+  template:
+    metadata:
+      labels:
+        app: django-backend-quiz-app
+    spec:
+      containers:
+      - name: django-poll-kube
+        imagePullPolicy: Always
+        image: gopalghule05/lnx_quiz
+        command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+        ports:
+        - containerPort: 8000

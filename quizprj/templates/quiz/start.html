@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% include "quiz/timer.html" %}
+{% block content %}
+
+{% if question is None %}
+<div class="container">
+  <div class="jumbotron my-4">
+    <h1> You have already answered all of our questions. </h1>
+    <a href="{% url 'quiz:dashboard' %}" class="btn btn-lg btn-info"><i class="fa fa-trophy" aria-hidden="true"></i> See the leaderboard here <i class="fa fa-trophy" aria-hidden="true"></i></a>
+  </div>
+</div>
+
+{% else %}
+
+<div class="container">
+  <hr>
+
+  <script type="text/javascript">
+    window.onload = function begin(){
+    document.getElementById('timer').innerHTML =
+      2 + ":" + 00;
+    startTimer();
+    }
+    
+    function startTimer() {
+      var presentTime = document.getElementById('timer').innerHTML;
+      var timeArray = presentTime.split(/[:]+/);
+      var m = timeArray[0];
+      var s = checkSecond((timeArray[1] - 1));
+      if(s==59){m=m-1}
+      if(m<0){
+        document.getElementById('quiz').submit();
+        //document.getElementById("submitBtn").click();
+      }
+      document.getElementById('timer').innerHTML =
+        m + ":" + s;
+      setTimeout(startTimer, 1000);
+    }
+    
+    function checkSecond(sec) {
+      if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+      if (sec < 0) {sec = "59"};
+      return sec;
+    }
+
+
+    </script>
+
+        <div class='float-right sticky-top'>
+            <div class="row justify-content-left">
+                <div class="col-mx-auto">
+                  <div class="alert alert-success" role="alert"><center>Time left : <span id="timer"></span></center></div>
+                </div>
+            </div>
+        </div>
+
+
+  <div class="mt-3 mb-3 h4">{{ question }}</div>
+  <div>
+  <form id="quiz" action="" method="POST" >
+      {% csrf_token %}
+      <input type="hidden" name="question_pk" value="{{ question.pk }}">
+      {% for choice in question.choices.all %}
+      <input type="radio" name="choice_pk" id="choice{{ forloop.counter }}" value="{{ choice.pk }}">
+      <label for="choice{{ forloop.counter }}">{{ choice.choice_text  }}</label>
+      <br>
+      {% endfor %}
+      <!-- <input id='timer' type='hidden' name="timer" value=""> -->
+      <br>
+      <input type="submit" id="submitBtn" value="Submit" class="btn btn-primary mt-3">
+      <!-- <input class="btn btn-info btn-lg" type="submit" value="Submit">   -->
+      <a class="btn btn-warning mt-3" href="{% url 'quiz:home' %}" role="button">Cancel</a>
+  </form>
+  </div>
+
+{% endif %} 
+
+{% endblock content %}
+
+</div>

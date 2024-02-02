@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4"><span class="badge badge-primary"><i class="fa fa-trophy" aria-hidden="true"></i> TOP {{ total_count }} PLAYERS <i class="fa fa-trophy" aria-hidden="true"></i></span></h1>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Position</th>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Total Attempts</th>
+                <th>Correct Attempts</th>
+                <th>Success rate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz_profile in top_quiz_profiles %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ quiz_profile.user.username }}</td>
+                <td>{{ quiz_profile.total_score }}</td>
+                <td>{{ quiz_profile.total_attempts }}</td>
+                <td>{{ quiz_profile.correct_attempts }}</td>
+                <td>{{ quiz_profile.success_rate|floatformat:2 }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

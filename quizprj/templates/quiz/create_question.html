@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated and user.is_staff %}
+    <div class="row center">
+        <div class="col-md-6 offset-md-3">
+            <h2>Create Question poll</h2>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="question_pk" value="{{ question.pk }}">
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field.errors }}
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Add Question</button>
+                <a class="btn btn-warning" href="{% url 'quiz:home' %}" role="button">Back</a>
+            </form>
+        </div>
+    </div>
+    {% else %}
+        <h1>Error: Unauthorized Access</h1>
+        <p>You are not authorized to access this page.</p>
+    {% endif %}
+    
+</div>
+{% endblock %}
